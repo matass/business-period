@@ -81,6 +81,7 @@ irb(main):003:0> BusinessPeriod::Days.call(period)
 ## Todo
 - [ ] Add latvian config
 - [ ] Add estonian config 
+- [ ] Calculate Easter holidays 
 
 ## Development
 
