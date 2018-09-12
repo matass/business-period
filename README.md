@@ -39,14 +39,6 @@ end
 
 ```
 
-##### Include business_period base file
-```ruby
-# config/application.rb
-
-require 'business_period'
-
-```
-
 ## How it works
 
 1. Dynamically calculates how many days we have to add to period end (Saturdays/Sundays/Holidays)
