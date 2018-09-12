@@ -1,6 +1,6 @@
 [![CircleCI](https://circleci.com/gh/matass/business-period.svg?style=svg&circle-token=4f56e9b7fe1047d59c9f74d518b9bf377fa04bf8)](https://github.com/matass/business-period)
 [![Maintainability](https://api.codeclimate.com/v1/badges/4a92970cba0ed7292720/maintainability)](https://codeclimate.com/github/matass/business-period/maintainability)
-
+[![Gem Version](https://badge.fury.io/rb/business-period.svg)](https://badge.fury.io/rb/business-period)
 # Business period
 
 **BusinessPeriod** is a ruby library that calculates business period by given array.
