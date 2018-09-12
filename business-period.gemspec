@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ['matas']
   spec.email         = ['matas.simonaitis@ksdigital.lt']
 
-  spec.summary       = ''
+  spec.summary       = '📅 calculate business period'
   spec.description   = ''
   spec.homepage      = 'https://github.com/matass/business-period'
   spec.license       = 'MIT'
