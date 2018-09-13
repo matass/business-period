@@ -17,7 +17,7 @@ RSpec.describe BusinessPeriod::Base do
       config(nil, [1])
 
       expect(
-        BusinessPeriod::Base .new .calculate_days_to_add_to([2, 4])
+        BusinessPeriod::Base.new.calculate_days_to_add_to([2, 4])
       ).to be >= 31
     end
 
