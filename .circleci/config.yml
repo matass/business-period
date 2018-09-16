@@ -1,26 +1,20 @@
-version: 2.0
-defaults: &defaults
-  working_directory: ~/business-period
-  docker:
-    - image: circleci/ruby:2.4.1-jessie-node-browsers
-
+version: 2
 jobs:
-  backend-tests:
-    <<: *defaults
+  build:
+    docker:
+      - image: circleci/ruby:2.4.1
     steps:
       - checkout
-      - run: 
-          name: Setup dependencies
-          command: |
-            bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
-      - run: 
-          name: Run backend tests
-          command: |
-            bundle exec rake
-
+      - run: <command>
+  backend_test:
+    docker:
+      - image: circleci/ruby:2.4.1
+    steps:
+      - checkout
+      - run: rake
 workflows:
   version: 2
-
-  commit:
+  build_and_test:
     jobs:
-      - backend-tests
+      - build
+      - backend_test
