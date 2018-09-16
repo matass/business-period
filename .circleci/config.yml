@@ -3,6 +3,8 @@ defaults: &defaults
   working_directory: ~/business-period
   docker:
     - image: circleci/ruby:2.4.2-jessie-node-browsers
+  environment:
+    CC_TEST_REPORTER_ID: b17a7526213004bd552355bf38d0274549595a7ef32f22d6b75ea352ce605ef1
 jobs:
   build:
     <<: *defaults
