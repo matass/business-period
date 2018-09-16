@@ -1,7 +1,12 @@
+version: 2
 jobs:
   build:
+    working_directory: ~/business-period
     docker:
-      - image: circleci/ruby:2.4.1-jessie
-    steps:
-      - run: |
-          bundle exec rake
+      - image: circleci/ruby:2.4.1
+      environment:
+        RAILS_ENV: test
+  steps:
+    - checkout
+
+    - run: bundle exec rake
