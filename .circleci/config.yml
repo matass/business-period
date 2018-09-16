@@ -1,12 +1,39 @@
-version: 2
+version: 2.0
+defaults: &defaults
+  working_directory: ~/business-period
+  docker:
+    - image: circleci/ruby:2.4.2-jessie-node-browsers
 jobs:
   build:
-    working_directory: ~/business-period
-    docker:
-      - image: circleci/ruby:2.4.1
-      environment:
-        RAILS_ENV: test
-  steps:
-    - checkout
+    <<: *defaults
+    steps:
+      - run:
+          name:  Download cc-test-reporter
+          command: |
+            mkdir -p tmp/
+            curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./tmp/cc-test-reporter
+            chmod +x ./tmp/cc-test-reporter
+      - persist_to_workspace:
+          root: tmp
+          paths:
+            - cc-test-reporter
+  backend-tests:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/business-period/tmp
+      - run: 
+          name: Setup dependencies
+          command: |
+            bundle install --without production --path=${BUNDLE_PATH:-vendor/bundle}
+      - run: 
+          name: Run backend tests
+          command: |
+            bundle exec rake
+workflows:
+  version: 2
 
-    - run: bundle exec rake
+  commit:
+    jobs:
+      - backend-tests
