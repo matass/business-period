@@ -1,8 +1,5 @@
 plugins:
   rubocop:
     enabled: true
-    checks:
-      Rubocop/Style/Documentation:
-        enabled: false
   rubymotion:
     enabled: true
