@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    business-period (0.0.1)
+    business-period (0.0.3)
 
 GEM
   remote: https://rubygems.org/

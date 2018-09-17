@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
-require 'business_period'
+require 'business-period'
 
 RSpec.configure(&:disable_monkey_patching!)
 
