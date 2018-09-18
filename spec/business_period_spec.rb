@@ -37,4 +37,17 @@ RSpec.describe BusinessPeriod::Days do
       ]
     )
   end
+
+  it 'correctly calculates from saturday when ends on holiday' do
+    lt_easter_holidays
+    config('lt', [2, 4, 5])
+
+    expect(BusinessPeriod::Days.call([2, 5])).to eq(
+      [
+        Time.new(2018, 0o4, 03).to_date,
+        Time.new(2018, 0o4, 10).to_date
+      ]
+    )
+  end
+
 end
