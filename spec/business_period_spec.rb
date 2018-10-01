@@ -14,17 +14,15 @@ RSpec.describe BusinessPeriod::Days do
     )
   end
 
-  it 'updates config through params and ' do
-    klass = BusinessPeriod::Days
-            .new(locale: 'lt', work_days: [1, 2, 3, 4, 5])
-            .perform([2, 10])
+  it 'updates config through params' do
+    locale = 'lt'
+    work_days = [1, 2, 3, 4, 5]
 
-    expect(klass).to eq(
-      [
-        Time.new(2018, 0o1, 10).to_date,
-        Time.new(2018, 0o1, 22).to_date
-      ]
-    )
+    klass = BusinessPeriod
+    klass::Days.new(locale, work_days)
+
+    expect(klass.configuration.locale).to eq locale
+    expect(klass.configuration.work_days).to eq work_days
   end
 
   it 'correctly calculates from saturday' do

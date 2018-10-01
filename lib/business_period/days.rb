@@ -2,7 +2,7 @@
 
 module BusinessPeriod
   class Days < Base
-    def initialize(locale: nil, work_days: nil)
+    def initialize(locale = nil, work_days = nil)
       BusinessPeriod.configure do |config|
         config.locale = locale if locale
         config.work_days = work_days if work_days
