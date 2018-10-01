@@ -24,6 +24,8 @@ Or install it yourself as:
 
 ## Quickstart
 
+There are two ways to initialize:
+
 ##### Add an initializer file:
 
 ```ruby
@@ -32,11 +34,22 @@ Or install it yourself as:
 # set locale to get config file from config/holidays path
 # set work_days to define which days of week are work days
 
-BusinessPeriod.configure do |config|
-  config.locale = 'lt'
-  config.work_days = [1, 2, 3, 4, 5]
-end
+locale = 'lt'
+work_days = [1, 2, 3, 4, 5]
 
+BusinessPeriod.configure do |config|
+  config.locale = locale
+  config.work_days = work_days
+end
+```
+
+##### Initialize through params:
+
+```ruby
+locale = 'lt'
+work_days = [1, 2, 3, 4, 5]
+
+BusinessPeriod::Days.new(locale, work_days)
 ```
 
 ## How it works
@@ -80,8 +93,7 @@ irb(main):003:0> BusinessPeriod::Days.call(period)
 
 ## Todo
 - [ ] Add latvian config
-- [ ] Add estonian config 
-- [ ] Calculate Easter holidays 
+- [ ] Add estonian config
 
 ## Development
 
