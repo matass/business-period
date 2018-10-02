@@ -26,7 +26,7 @@ Or install it yourself as:
 
 There are two ways to initialize:
 
-##### Add an initializer file:
+##### Default initialization:
 
 ```ruby
 # config/initializers/business_period.rb
@@ -37,19 +37,18 @@ There are two ways to initialize:
 locale = 'lt'
 work_days = [1, 2, 3, 4, 5]
 
-BusinessPeriod.configure do |config|
-  config.locale = locale
-  config.work_days = work_days
-end
+BusinessPeriod::Config.locale = locale
+BusinessPeriod::Config.work_days = work_days
 ```
 
-##### Initialize through params:
+##### Initialization with Proc:
 
 ```ruby
 locale = 'lt'
 work_days = [1, 2, 3, 4, 5]
 
-BusinessPeriod::Days.new(locale, work_days)
+BusinessPeriod::Config.locale = -> { locale }
+BusinessPeriod::Config.work_days = -> { work_days }
 ```
 
 ## How it works
