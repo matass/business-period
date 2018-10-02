@@ -3,7 +3,7 @@
 module BusinessPeriod
   class Base
     def config
-      @config ||= BusinessPeriod.configuration
+      @config ||= Config
     end
 
     # Returns range of days

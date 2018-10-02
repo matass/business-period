@@ -19,9 +19,12 @@ RSpec.shared_context 'shared helper', shared_context: :metadata do
   end
 
   def config(locale, work_days)
-    BusinessPeriod.configure do |config|
-      config.locale = locale if locale
-      config.work_days = work_days if work_days
-    end
+    BusinessPeriod::Config.locale = locale
+    BusinessPeriod::Config.work_days = work_days
+  end
+
+  def config_proc(locale, work_days)
+    BusinessPeriod::Config.locale = -> { locale }
+    BusinessPeriod::Config.work_days = -> { work_days }
   end
 end

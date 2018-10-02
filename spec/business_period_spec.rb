@@ -14,15 +14,18 @@ RSpec.describe BusinessPeriod::Days do
     )
   end
 
-  it 'updates config through params' do
-    locale = 'lt'
-    work_days = [1, 2, 3, 4, 5]
+  it 'correctly initializes config' do
+    config('lt', [5])
 
-    klass = BusinessPeriod
-    klass::Days.new(locale, work_days)
+    expect(BusinessPeriod::Config.locale).to eq 'lt'
+    expect(BusinessPeriod::Config.work_days).to eq [5]
+  end
 
-    expect(klass.configuration.locale).to eq locale
-    expect(klass.configuration.work_days).to eq work_days
+  it 'correctly initializes config with Proc' do
+    config_proc('lt', [1, 3, 5])
+
+    expect(BusinessPeriod::Config.locale).to eq 'lt'
+    expect(BusinessPeriod::Config.work_days).to eq [1, 3, 5]
   end
 
   it 'correctly calculates from saturday' do
