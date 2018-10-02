@@ -4,3 +4,5 @@ plugins:
     checks:
       Rubocop/Style/Documentation:
         enabled: false
+      Rubocop/Metrics/LineLength:
+        enabled: false
