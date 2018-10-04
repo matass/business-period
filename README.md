@@ -3,7 +3,7 @@
 [![Gem Version](https://badge.fury.io/rb/business-period.svg)](https://badge.fury.io/rb/business-period)
 # Business period
 
-**BusinessPeriod** is a ruby library that calculates business period by given array.
+**BusinessPeriod** is a ruby library that calculates business period by given hash.
 This library was designed for lithuanian, latvian and estonian unemployment days.
 
 ## Installation
@@ -61,9 +61,8 @@ BusinessPeriod::Config.work_days = -> { work_days }
 ## Usage
 
 ```ruby
-# set period array
-# 2 is our start day and 4 is our end day
-period = [2, 4]
+# set period hash
+period = { from_date: 2, end_date: 4 }
 
 # call BusinessPeriod::Days class to calculate period 
 BusinessPeriod::Days.call(period)
@@ -74,7 +73,7 @@ Let's say we have no holidays this month and today is Wednesday
 
 let `work_days = [1, 2, 3, 4, 5]` (all days except weekends)
 
-let `period = [2, 4]`
+let `period = { from_date: 2, end_date: 4 }`
 
 * Begins to count period from the coming day
 * Tomorrow (Thursday) is the first valid day
@@ -84,13 +83,14 @@ let `period = [2, 4]`
 ```console
 irb(main):001:0> Time.current
 => Wed, 12 Sep 2018 05:49:10 UTC +00:00
-irb(main):002:0> period = [2, 4]
-=> [2, 4]
+irb(main):002:0> period = { from_date: 2, end_date: 4 }
+=> {:from_date=>2, :end_date=>4}
 irb(main):003:0> BusinessPeriod::Days.call(period)
-=> [Fri, 14 Sep 2018, Tue, 18 Sep 2018]
+=> {:from_date=>Fri, 14 Sep 2018, :end_date=>Tue, 18 Sep 2018]
 ```
 
 ## Todo
+- [ ] improve specs
 - [ ] Add latvian config
 - [ ] Add estonian config
 
