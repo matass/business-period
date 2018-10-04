@@ -13,7 +13,7 @@ module BusinessPeriod
       check_holidays
 
       # Selects business days from given from_date and to_date values.
-      # E.g from_date = 2, end_date = 4
+      # E.g from_date = 2, to_date = 4
       # selects second and fourth elements
       {
         from_date: @days[from_date][:day],
