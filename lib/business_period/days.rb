@@ -2,19 +2,23 @@
 
 module BusinessPeriod
   class Days < Base
-    def self.call(plot)
-      new.perform(plot)
+    def self.call(from_date:, to_date:)
+      new.perform(from_date, to_date)
     end
 
-    def perform(plot)
-      @period = calculate_period(plot)
+    def perform(from_date, to_date)
+      @period = calculate_period(from_date, to_date)
       @days = business_days
 
       check_holidays
 
-      # Selects business days from given plot.
-      # E.g plot = [2, 4], selects second and fourth elements
-      plot.map { |param| @days[param][:day] }
+      # Selects business days from given from_date and to_date values.
+      # E.g from_date = 2, to_date = 4
+      # selects second and fourth elements
+      {
+        from_date: @days[from_date][:day],
+        to_date: @days[to_date][:day]
+      }
     end
 
     private

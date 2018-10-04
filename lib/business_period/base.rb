@@ -7,10 +7,9 @@ module BusinessPeriod
     end
 
     # Returns range of days
-    # Plot is our given period. E.g. [2, 4]
-    def calculate_period(plot)
+    def calculate_period(from_date, to_date)
       @calculate_period ||= begin
-        imaginable_last_day = calculate_days_to_add_to(plot)
+        imaginable_last_day = calculate_days_to_add_to(from_date, to_date)
 
         # converts days to seconds
         days_to_add = days_to_seconds(imaginable_last_day)
@@ -28,8 +27,8 @@ module BusinessPeriod
       @holidays ||= YAML.load_file(File.join(holiday_config)).fetch('months')
     end
 
-    # Dynamically calculates how many days we have add to plot end
-    def calculate_days_to_add_to(plot)
+    # Dynamically calculates how many days we have add to `to_date` end
+    def calculate_days_to_add_to(from_date, to_date)
       # Calculates subjective number
       sum = (7 - config.work_days.size)
 
@@ -38,7 +37,7 @@ module BusinessPeriod
       sum = 1 if sum.zero?
 
       # Some magic
-      (plot.last - plot.first) * 2 * sum + 7
+      (to_date - from_date) * 2 * sum + 7
     end
 
     private
