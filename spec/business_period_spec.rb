@@ -57,7 +57,7 @@ RSpec.describe BusinessPeriod::Days do
   end
 
   context 'calls self' do
-    1000.times do
+    2000.times do
       day = rand(356)
       days = rand(356)
 
