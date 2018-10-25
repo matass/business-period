@@ -37,7 +37,7 @@ module BusinessPeriod
       sum = 1 if sum.zero?
 
       # Some magic
-      (to_date - from_date) * 2 * sum + 7
+      (from_date + to_date) * sum + 7
     end
 
     private

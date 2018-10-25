@@ -63,4 +63,20 @@ RSpec.describe BusinessPeriod::Days do
       }
     )
   end
+  
+  context 'calls BusinessPeriod::Days class' do
+    day = 1
+    days = 356
+
+    loop do
+      day += 1
+
+      it "raises no errors according to given interval: [#{day} – #{days}]" do
+        expect{ BusinessPeriod::Days.call(from_date: day, to_date: days) }
+          .to_not raise_error
+      end
+
+      break if day == days
+    end
+  end
 end
