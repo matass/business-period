@@ -7,10 +7,8 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [1, 2, 3, 4, 5])
 
     expect(BusinessPeriod::Days.call(from_date: 2, to_date: 10)).to eq(
-      {
-        from_date: Time.new(2018, 0o1, 10).to_date,
-        to_date: Time.new(2018, 0o1, 22).to_date
-      }
+      from_date: Time.new(2018, 0o1, 10).to_date,
+      to_date: Time.new(2018, 0o1, 22).to_date
     )
   end
 
@@ -33,10 +31,8 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [5])
 
     expect(BusinessPeriod::Days.call(from_date: 2, to_date: 5)).to eq(
-      {
-        from_date: Time.new(2018, 0o1, 26).to_date,
-        to_date: Time.new(2018, 0o2, 23).to_date # 02-16 Valstybes atkurimo diena
-      }
+      from_date: Time.new(2018, 0o1, 26).to_date,
+      to_date: Time.new(2018, 0o2, 23).to_date # 02-16 Valstybes atkurimo diena
     )
   end
 
@@ -45,10 +41,8 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [5])
 
     expect(BusinessPeriod::Days.call(from_date: 2, to_date: 10)).to eq(
-      {
-        from_date: Time.new(2018, 0o1, 26).to_date,
-        to_date: Time.new(2018, 0o3, 30).to_date
-      }
+      from_date: Time.new(2018, 0o1, 26).to_date,
+      to_date: Time.new(2018, 0o3, 30).to_date
     )
   end
 
@@ -57,26 +51,22 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [2, 4, 5])
 
     expect(BusinessPeriod::Days.call(from_date: 2, to_date: 5)).to eq(
-      {
-        from_date: Time.new(2018, 0o4, 0o3).to_date,
-        to_date: Time.new(2018, 0o4, 10).to_date
-      }
+      from_date: Time.new(2018, 0o4, 0o3).to_date,
+      to_date: Time.new(2018, 0o4, 10).to_date
     )
   end
-  
-  context 'calls self' do
-    day = 1
-    days = 356
 
-    loop do
-      day += 1
+  context 'calls self' do
+    2000.times do
+      day = rand(356)
+      days = rand(356)
+
+      next unless day < days
 
       it "raises no errors according to given interval: [#{day} – #{days}]" do
-        expect{ BusinessPeriod::Days.call(from_date: day, to_date: days) }
+        expect { BusinessPeriod::Days.call(from_date: day, to_date: days) }
           .to_not raise_error
       end
-
-      break if day == days
     end
   end
 end
