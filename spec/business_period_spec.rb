@@ -64,7 +64,7 @@ RSpec.describe BusinessPeriod::Days do
     )
   end
   
-  context 'calls BusinessPeriod::Days class' do
+  context 'calls self' do
     day = 1
     days = 356
 
