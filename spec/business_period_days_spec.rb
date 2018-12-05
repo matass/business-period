@@ -83,7 +83,7 @@ RSpec.describe BusinessPeriod::Days do
 
   context 'calls self' do
     2000.times do |index|
-      day = srand rand(356)
+      day = rand(356)
 
       next unless day < index
 
