@@ -84,11 +84,14 @@ RSpec.describe BusinessPeriod::Days do
   context 'calls self' do
     2000.times do |index|
       day = rand(356)
+      days = rand(356)
 
-      next unless day < index
+      next unless day < days
 
-      it "raises no errors according to given interval: [#{day} – #{index}]" do
-        expect { BusinessPeriod::Days.call(from_date: day, to_date: index) }
+      it "raises no errors according to given interval: [#{day} – #{days}]" do
+        config('lt', [5])
+
+        expect { BusinessPeriod::Days.call(from_date: 1, to_date: 20) }
           .to_not raise_error
       end
     end
