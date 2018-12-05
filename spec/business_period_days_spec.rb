@@ -94,4 +94,3 @@ RSpec.describe BusinessPeriod::Days do
     end
   end
 end
-
