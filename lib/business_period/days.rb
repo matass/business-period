@@ -7,6 +7,9 @@ module BusinessPeriod
     end
 
     def perform(from_date, to_date)
+      return {} if from_date.nil? || to_date.nil?
+      return {} if from_date > to_date
+
       @period = calculate_period(from_date, to_date)
       @days = business_days
 
