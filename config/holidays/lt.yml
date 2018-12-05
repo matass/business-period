@@ -9,15 +9,17 @@ months:
   - mday: 11
     name: Nepriklausomybės atkūrimo diena
   4:
-  - mday: 1
+  - mday: 21
     name: Velykos
-  - mday: 2
+  - mday: 22
     name: Velykų antroji diena
   5:
   - mday: 1
-    name: Tarptautinė darbo diena / Motinos diena
+    name: Tarptautinė darbo diena
+  - mday: 5
+    name: Motinos diena
   6:
-  - mday: 3
+  - mday: 2
     name: Tėvo diena
   - mday: 24
     name: Joninės
