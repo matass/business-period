@@ -7,7 +7,7 @@ module BusinessPeriod
     end
 
     # Returns range of days
-    def calculate_period(from_date, to_date)
+    def calculate_period(to_date)
       @calculate_period ||= begin
         finish = DateTime.now.next_day(to_date).to_date
 
