@@ -41,9 +41,13 @@ module BusinessPeriod
       business_days.each_with_index do |day, index|
         next unless holidays[day[:month]]
 
-        holidays[day[:month]].each do |holiday|
-          business_days.delete_at(index) if holiday['mday'] == day[:day].mday
-        end
+        extract_holidays(business_days, day, index)
+      end
+    end
+
+    def extract_holidays(business_days, day, index)
+      holidays[day[:month]].each do |holiday|
+        business_days.delete_at(index) if holiday['mday'] == day[:day].mday
       end
     end
   end
