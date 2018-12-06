@@ -25,32 +25,25 @@ module BusinessPeriod
 
     private
 
-    def validate_params(from_date, to_date)
-      return {} if
-        from_date.is_a?(Array) || to_date.is_a?(Array) ||
-        from_date.nil? || to_date.nil? ||
-        from_date > to_date
-    end
-
     def business_days(period)
-      period.map do |day|
-        if config.work_days.include?(day.wday)
-          { day: day, month: day.to_time.month }
-        end
-      end.compact
-    end
+      period.each_with_object([]) do |day, container|
+        next unless config.work_days.include?(day.wday)
 
-    def check_holidays(days)
-      days.each_with_index do |day, index|
-        next unless holidays[day[:month]]
-
-        extract_holidays(days, day, index)
+        container <<
+          {
+            day: day,
+            month: day.to_time.month
+          }
       end
     end
 
-    def extract_holidays(days, day, index)
-      holidays[day[:month]].map do |holiday|
-        days.delete_at(index) if holiday['mday'] == day[:day].mday
+    def check_holidays(business_days)
+      business_days.each_with_index do |day, index|
+        next unless holidays[day[:month]]
+
+        holidays[day[:month]].each do |holiday|
+          business_days.delete_at(index) if holiday['mday'] == day[:day].mday
+        end
       end
     end
   end

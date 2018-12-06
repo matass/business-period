@@ -87,7 +87,6 @@ RSpec.describe BusinessPeriod::Days do
       days = rand(356)
 
       next unless day < days
-
       it "raises no errors according to given interval: [#{day} – #{days}]" do
         config('lt', [5])
 
