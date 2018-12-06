@@ -7,48 +7,49 @@ module BusinessPeriod
     end
 
     def perform(from_date, to_date)
-      return {} if from_date.nil? || to_date.nil?
-      return {} if from_date > to_date
+      return {} unless valid_params(from_date, to_date)
 
-      @period = calculate_period(from_date, to_date)
-      @days = business_days
+      period = calculate_period(to_date)
+      days = business_days(period)
 
-      check_holidays
+      check_holidays(days)
 
-      # Selects business days from given from_date and to_date values.
-      # E.g from_date = 2, to_date = 4
-      # selects second and fourth elements
       {
-        from_date: @days[from_date][:day],
-        to_date: @days[to_date][:day]
+        from_date: days[from_date][:day],
+        to_date: days[to_date][:day]
       }
     end
 
     private
 
-    # Maps business days to array by given calculated period
-    def business_days
-      @business_days ||= @period.map do |day|
-        # checks if day is business day
-        if config.work_days.include?(day.wday)
-          { day: day, month: day.to_time.month }
-        end
-      end.compact
+    def valid_params(from_date, to_date)
+      from_date.is_a?(Integer) && to_date.is_a?(Integer) &&
+        from_date < to_date
     end
 
-    # Removes business days which are on holidays
-    def check_holidays
-      @days.each_with_index do |day, index|
-        # Skips if no holiday in the current month
-        next unless holidays[day[:month]]
+    def business_days(period)
+      period.each_with_object([]) do |day, container|
+        next unless config.work_days.include?(day.wday)
 
-        extract_holidays(day, index)
+        container <<
+          {
+            day: day,
+            month: day.to_time.month
+          }
       end
     end
 
-    def extract_holidays(day, index)
+    def check_holidays(business_days)
+      business_days.each_with_index do |day, index|
+        next unless holidays[day[:month]]
+
+        extract_holidays(business_days, day, index)
+      end
+    end
+
+    def extract_holidays(business_days, day, index)
       holidays[day[:month]].each do |holiday|
-        @days.delete_at(index) if holiday['mday'] == day[:day].mday
+        business_days.delete_at(index) if holiday['mday'] == day[:day].mday
       end
     end
   end

@@ -81,15 +81,64 @@ RSpec.describe BusinessPeriod::Days do
     end
   end
 
+  describe 'when passing hashes or arrays' do
+    it 'returns empty hash when both from_date and to_date params are empty arrays' do
+      lt_easter_holidays
+      config('lt', [2, 4, 5])
+
+      expect(BusinessPeriod::Days.call(from_date: [], to_date: [])).to eq({})
+    end
+
+    it 'returns empty hash when both from_date and to_date params are empty hashes' do
+      lt_easter_holidays
+      config('lt', [2, 4, 5])
+
+      expect(BusinessPeriod::Days.call(from_date: {}, to_date: {})).to eq({})
+    end
+  end
+
+  describe 'when passing not numeric chars' do
+    it 'returns empty hash when both from_date and to_date are not numeric' do
+      lt_easter_holidays
+      config('lt', [2, 4, 5])
+
+      expect(BusinessPeriod::Days.call(from_date: 'a', to_date: 'b')).to eq({})
+    end
+  end
+
   context 'calls self' do
-    2000.times do |index|
-      day = srand rand(356)
+    2000.times do
+      day = rand(356)
+      days = rand(356)
 
-      next unless day < index
+      next unless day < days
 
-      it "raises no errors according to given interval: [#{day} – #{index}]" do
-        expect { BusinessPeriod::Days.call(from_date: day, to_date: index) }
-          .to_not raise_error
+      it "raises no errors. work_days: [1], interval: [#{day} – #{days}]" do
+        expecter([1], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2], interval: [#{day} – #{days}]" do
+        expecter([1, 2], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2, 3], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2, 3, 4], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3, 4], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2, 3, 4, 5], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3, 4, 5], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2, 3, 4, 5], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3, 4, 5, 6], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2, 3, 4, 5], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3, 4, 5, 7], day, days)
       end
     end
   end
