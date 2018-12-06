@@ -7,7 +7,7 @@ module BusinessPeriod
     end
 
     def perform(from_date, to_date)
-      return {} if invalid_params(from_date, to_date)
+      return {} unless valid_params(from_date, to_date)
 
       period = calculate_period(to_date)
       days = business_days(period)
@@ -22,10 +22,9 @@ module BusinessPeriod
 
     private
 
-    def invalid_params(from_date, to_date)
-      from_date.is_a?(Array) || to_date.is_a?(Array) ||
-        from_date.nil? || to_date.nil? ||
-        from_date > to_date
+    def valid_params(from_date, to_date)
+      from_date.is_a?(Integer) && to_date.is_a?(Integer) &&
+        from_date < to_date
     end
 
     def business_days(period)
