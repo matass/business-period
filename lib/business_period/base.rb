@@ -7,12 +7,10 @@ module BusinessPeriod
     end
 
     def calculate_period(to_date)
-      @calculate_period ||= begin
-        magic_number = 10 - config.work_days.size
-        days_to_add = days_to_seconds(to_date * magic_number)
-        finish = Time.now + days_to_add
-        Time.now.to_date..finish.to_date
-      end
+      magic_number = 10 - config.work_days.size
+      days_to_add = days_to_seconds(to_date * magic_number)
+      finish = Time.now + days_to_add
+      Time.now.to_date..finish.to_date
     end
 
     def holidays
