@@ -27,4 +27,11 @@ RSpec.shared_context 'shared helper', shared_context: :metadata do
     BusinessPeriod::Config.locale = -> { locale }
     BusinessPeriod::Config.work_days = -> { work_days }
   end
+
+  def expecter(work_days, day, days)
+    config('lt', work_days)
+
+    expect { BusinessPeriod::Days.call(from_date: day, to_date: days) }
+      .to_not raise_error
+  end
 end

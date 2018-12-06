@@ -8,7 +8,9 @@ module BusinessPeriod
 
     def calculate_period(to_date)
       @calculate_period ||= begin
-        finish = DateTime.now.next_day(to_date).to_date
+        magic_number = 8 - config.work_days.size
+
+        finish = DateTime.now.next_day(to_date * magic_number).to_date
 
         Time.now.to_date..finish
       end

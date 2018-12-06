@@ -82,16 +82,38 @@ RSpec.describe BusinessPeriod::Days do
   end
 
   context 'calls self' do
-    2000.times do |index|
+    2000.times do
       day = rand(356)
       days = rand(356)
 
       next unless day < days
-      it "raises no errors according to given interval: [#{day} – #{days}]" do
-        config('lt', [5])
 
-        expect { BusinessPeriod::Days.call(from_date: 1, to_date: 20) }
-          .to_not raise_error
+      it "raises no errors. work_days: [1], interval: [#{day} – #{days}]" do
+        expecter([1], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2], interval: [#{day} – #{days}]" do
+        expecter([1, 2], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2, 3], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2, 3, 4], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3, 4], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2, 3, 4, 5], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3, 4, 5], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2, 3, 4, 5], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3, 4, 5, 6], day, days)
+      end
+
+      it "raises no errors. work_days: [1, 2, 3, 4, 5], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3, 4, 5, 7], day, days)
       end
     end
   end
