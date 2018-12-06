@@ -24,8 +24,8 @@ module BusinessPeriod
 
     def invalid_params(from_date, to_date)
       from_date.is_a?(Array) || to_date.is_a?(Array) ||
-      from_date.nil? || to_date.nil? ||
-      from_date > to_date
+        from_date.nil? || to_date.nil? ||
+        from_date > to_date
     end
 
     def business_days(period)
