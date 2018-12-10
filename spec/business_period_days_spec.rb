@@ -52,10 +52,13 @@ RSpec.describe BusinessPeriod::Days do
     )
   end
 
-  it 'returns emty hash when from_date > to_date' do
-    config('lt', [2])
+  it 'correctly calculates from today' do
+    config('lt', [1, 2, 3, 4, 5])
 
-    expect(BusinessPeriod::Days.call(from_date: 20, to_date: 5)).to eq({})
+    expect(BusinessPeriod::Days.call(from_date: 0, to_date: 2)).to eq(
+      from_date: Time.new(2018, 0o1, 8).to_date,
+      to_date: Time.new(2018, 0o1, 10).to_date
+    )
   end
 
   describe 'when passing nil parrams' do
