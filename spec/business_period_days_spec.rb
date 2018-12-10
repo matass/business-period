@@ -7,8 +7,8 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [1, 2, 3, 4, 5])
 
     expect(BusinessPeriod::Days.call(from_date: 2, to_date: 10)).to eq(
-      from_date: Time.new(2018, 0o1, 10).to_date,
-      to_date: Time.new(2018, 0o1, 22).to_date
+      from_date: Time.new(2018, 1, 10).to_date,
+      to_date: Time.new(2018, 1, 22).to_date
     )
   end
 
@@ -17,8 +17,18 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [5])
 
     expect(BusinessPeriod::Days.call(from_date: 2, to_date: 5)).to eq(
-      from_date: Time.new(2018, 0o1, 26).to_date,
-      to_date: Time.new(2018, 0o2, 23).to_date # 02-16 Valstybes atkurimo diena
+      from_date: Time.new(2018, 1, 26).to_date,
+      to_date: Time.new(2018, 2, 23).to_date # 02-16 Valstybes atkurimo diena
+    )
+  end
+
+  it 'correctly calculates from sunday when the first day is sunday' do
+    config('lt', [1, 2, 3, 4, 5])
+    sunday
+
+    expect(BusinessPeriod::Days.call(from_date: 0, to_date: 2)).to eq(
+      from_date: Time.new(2018, 1, 22).to_date,
+      to_date: Time.new(2018, 1, 24).to_date
     )
   end
 
@@ -27,8 +37,8 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [5])
 
     expect(BusinessPeriod::Days.call(from_date: 2, to_date: 10)).to eq(
-      from_date: Time.new(2018, 0o1, 26).to_date,
-      to_date: Time.new(2018, 0o3, 30).to_date
+      from_date: Time.new(2018, 1, 26).to_date,
+      to_date: Time.new(2018, 3, 30).to_date
     )
   end
 
@@ -37,8 +47,8 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [2, 4, 5])
 
     expect(BusinessPeriod::Days.call(from_date: 2, to_date: 5)).to eq(
-      from_date: Time.new(2018, 0o4, 0o3).to_date,
-      to_date: Time.new(2018, 0o4, 10).to_date
+      from_date: Time.new(2018, 4, 3).to_date,
+      to_date: Time.new(2018, 4, 10).to_date
     )
   end
 
@@ -47,8 +57,8 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [2, 4, 5])
 
     expect(BusinessPeriod::Days.call(from_date: 2, to_date: 5)).to eq(
-      from_date: Time.new(2018, 0o4, 0o3).to_date,
-      to_date: Time.new(2018, 0o4, 10).to_date
+      from_date: Time.new(2018, 4, 3).to_date,
+      to_date: Time.new(2018, 4, 10).to_date
     )
   end
 
@@ -56,8 +66,8 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [1, 2, 3, 4, 5])
 
     expect(BusinessPeriod::Days.call(from_date: 0, to_date: 2)).to eq(
-      from_date: Time.new(2018, 0o1, 8).to_date,
-      to_date: Time.new(2018, 0o1, 10).to_date
+      from_date: Time.new(2018, 1, 8).to_date,
+      to_date: Time.new(2018, 1, 10).to_date
     )
   end
 
