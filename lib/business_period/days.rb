@@ -24,7 +24,7 @@ module BusinessPeriod
 
     def valid_params(from_date, to_date)
       from_date.is_a?(Integer) && to_date.is_a?(Integer) &&
-        from_date < to_date
+        from_date >= 0 && to_date >= 0
     end
 
     def business_days(period)
