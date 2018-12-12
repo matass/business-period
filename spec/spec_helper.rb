@@ -22,6 +22,10 @@ RSpec.shared_context 'shared helper', shared_context: :metadata do
     allow(Time).to receive(:now).and_return(Time.new(2018, 3, 29))
   end
 
+  let(:et_spring_day) do
+    allow(Time).to receive(:now).and_return(Time.new(2019, 5, 1))
+  end
+
   def config(locale, work_days)
     BusinessPeriod::Config.locale = locale
     BusinessPeriod::Config.work_days = work_days

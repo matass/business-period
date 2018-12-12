@@ -52,6 +52,16 @@ RSpec.describe BusinessPeriod::Days do
     )
   end
 
+  it 'correctly calculates from ET spring day holiday' do
+    et_spring_day
+    config('et', [4, 5])
+
+    expect(BusinessPeriod::Days.call(from_date: 1, to_date: 4)).to eq(
+      from_date: Time.new(2019, 5, 3).to_date,
+      to_date: Time.new(2019, 5, 16).to_date
+    )
+  end
+
   it 'correctly calculates from saturday when ends on holiday' do
     lt_easter_holidays
     config('lt', [2, 4, 5])
