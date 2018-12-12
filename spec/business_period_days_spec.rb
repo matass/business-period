@@ -52,7 +52,7 @@ RSpec.describe BusinessPeriod::Days do
     )
   end
 
-  it 'correctly calculates from saturday when ends on holiday' do
+  it 'correctly calculates from ET spring day holiday' do
     et_spring_day
     config('et', [4, 5])
 
