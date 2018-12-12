@@ -7,7 +7,7 @@ module BusinessPeriod
     end
 
     def calculate_period(to_date)
-      magic_number = 10 - config.work_days.size
+      magic_number = 15 - config.work_days.size
       days_to_add = days_to_seconds(to_date * magic_number)
       finish = Time.now + days_to_add
       Time.now.to_date..finish.to_date

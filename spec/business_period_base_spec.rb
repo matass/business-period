@@ -13,5 +13,10 @@ RSpec.describe BusinessPeriod::Base do
       config('et', nil)
       expect(BusinessPeriod::Base.new.holidays).not_to eq(nil)
     end
+
+    it 'gets LV holidays config file' do
+      config('lv', nil)
+      expect(BusinessPeriod::Base.new.holidays).not_to eq(nil)
+    end
   end
 end

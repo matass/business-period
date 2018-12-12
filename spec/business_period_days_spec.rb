@@ -62,6 +62,16 @@ RSpec.describe BusinessPeriod::Days do
     )
   end
 
+  it 'correctly calculates from LV National Day holiday' do
+    lv_national_day
+    config('lv', [1, 3, 5])
+
+    expect(BusinessPeriod::Days.call(from_date: 3, to_date: 4)).to eq(
+      from_date: Time.new(2019, 11, 25).to_date,
+      to_date: Time.new(2019, 11, 27).to_date
+    )
+  end
+
   it 'correctly calculates from saturday when ends on holiday' do
     lt_easter_holidays
     config('lt', [2, 4, 5])
@@ -156,11 +166,11 @@ RSpec.describe BusinessPeriod::Days do
         expecter([1, 2, 3, 4, 5], day, days)
       end
 
-      it "raises no errors. work_days: [1, 2, 3, 4, 5], interval: [#{day} – #{days}]" do
+      it "raises no errors. work_days: [1, 2, 3, 4, 5, 6], interval: [#{day} – #{days}]" do
         expecter([1, 2, 3, 4, 5, 6], day, days)
       end
 
-      it "raises no errors. work_days: [1, 2, 3, 4, 5], interval: [#{day} – #{days}]" do
+      it "raises no errors. work_days: [1, 2, 3, 4, 5, 6, 7], interval: [#{day} – #{days}]" do
         expecter([1, 2, 3, 4, 5, 7], day, days)
       end
     end

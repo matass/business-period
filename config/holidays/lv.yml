@@ -1,0 +1,31 @@
+months:
+  1:
+  - mday: 1
+    name: New Year's Day
+  4:
+  - mday: 19
+    name: Good Friday
+  - mday: 22
+    name: Easter Monday
+  5:
+  - mday: 1
+    name: Labour Day
+  - mday: 6
+    name: Declaration of Independence Day
+  6:
+  - mday: 23
+    name: Midsummer Eve
+  - mday: 24
+    name: St. John's Day
+  11:
+  - mday: 18
+    name: Latvian National Day
+  12:
+  - mday: 24
+    name: Christmas Eve
+  - mday: 25
+    name: Christmas Day
+  - mday: 26
+    name: Second day of Christmas
+  - mday: 31
+    name: New Year's Eve
