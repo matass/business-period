@@ -1,0 +1,40 @@
+months:
+  1:
+  - mday: 1
+    name: New Year's Day
+  2:
+  - mday: 24
+    name: Independence Day
+  4:
+  - mday: 19
+    name: Good Friday
+  - mday: 21
+    name: Easter Sunday
+  5:
+  - mday: 1
+    name: Spring Day
+  - mday: 12
+    name: Mother's Day
+  6:
+  - mday: 9
+    name: Pentecost Sunday
+  - mday: 23
+    name: Victory Day
+  - mday: 24
+    name: St. John's Day
+  8:
+  - mday: 19
+    name: Independence Restoration Day
+  10:
+  - mday: 19
+    name: Ethnicity Day
+  11:
+  - mday: 10
+    name: Father's Day
+  12:
+  - mday: 24
+    name: Christmas Eve
+  - mday: 25
+    name: Christmas Day
+  - mday: 26
+    name: Boxing Day
