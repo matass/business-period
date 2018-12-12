@@ -26,6 +26,10 @@ RSpec.shared_context 'shared helper', shared_context: :metadata do
     allow(Time).to receive(:now).and_return(Time.new(2019, 5, 1))
   end
 
+  let(:lv_national_day) do
+    allow(Time).to receive(:now).and_return(Time.new(2019, 11, 18))
+  end
+
   def config(locale, work_days)
     BusinessPeriod::Config.locale = locale
     BusinessPeriod::Config.work_days = work_days
