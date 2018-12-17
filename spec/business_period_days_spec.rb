@@ -147,6 +147,14 @@ RSpec.describe BusinessPeriod::Days do
     end
   end
 
+  describe 'when from_date == to_date' do
+    it 'returns calculated result' do
+      config('lt', [1, 2, 3, 4, 5])
+
+      expect(described_class.call(from_date: 1, to_date: 1)).to_not eq([])
+    end
+  end
+
   context 'calls self' do
     2000.times do
       day = rand(356)
