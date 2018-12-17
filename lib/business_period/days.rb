@@ -10,7 +10,7 @@ module BusinessPeriod
       @from_date = from_date
       @to_date = to_date
 
-      return {} unless valid_params
+      return [] unless valid_params
 
       period = calculate_period(@to_date)
       days = business_days(period)
@@ -26,7 +26,8 @@ module BusinessPeriod
 
     def valid_params
       @from_date.is_a?(Integer) && @to_date.is_a?(Integer) &&
-        @from_date >= 0 && @to_date >= 0
+        @from_date >= 0 && @to_date >= 0 &&
+        (@from_date <= @to_date)
     end
 
     def extract_holidays(days)

@@ -6,7 +6,7 @@ RSpec.describe BusinessPeriod::Days do
   it 'correctly calculates from business bay' do
     config('lt', [1, 2, 3, 4, 5])
 
-    expect(BusinessPeriod::Days.call(from_date: 2, to_date: 10)).to eq(
+    expect(described_class.call(from_date: 2, to_date: 10)).to eq(
       from_date: Time.new(2018, 1, 10).to_date,
       to_date: Time.new(2018, 1, 22).to_date
     )
@@ -16,7 +16,7 @@ RSpec.describe BusinessPeriod::Days do
     saturday
     config('lt', [5])
 
-    expect(BusinessPeriod::Days.call(from_date: 2, to_date: 5)).to eq(
+    expect(described_class.call(from_date: 2, to_date: 5)).to eq(
       from_date: Time.new(2018, 1, 26).to_date,
       to_date: Time.new(2018, 2, 23).to_date # 02-16 Valstybes atkurimo diena
     )
@@ -26,7 +26,7 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [1, 2, 3, 4, 5])
     sunday
 
-    expect(BusinessPeriod::Days.call(from_date: 0, to_date: 2)).to eq(
+    expect(described_class.call(from_date: 0, to_date: 2)).to eq(
       from_date: Time.new(2018, 1, 22).to_date,
       to_date: Time.new(2018, 1, 24).to_date
     )
@@ -36,7 +36,7 @@ RSpec.describe BusinessPeriod::Days do
     saturday
     config('lt', [5])
 
-    expect(BusinessPeriod::Days.call(from_date: 2, to_date: 10)).to eq(
+    expect(described_class.call(from_date: 2, to_date: 10)).to eq(
       from_date: Time.new(2018, 1, 26).to_date,
       to_date: Time.new(2018, 3, 30).to_date
     )
@@ -46,7 +46,7 @@ RSpec.describe BusinessPeriod::Days do
     lt_easter_holidays
     config('lt', [2, 4, 5])
 
-    expect(BusinessPeriod::Days.call(from_date: 2, to_date: 5)).to eq(
+    expect(described_class.call(from_date: 2, to_date: 5)).to eq(
       from_date: Time.new(2018, 4, 3).to_date,
       to_date: Time.new(2018, 4, 10).to_date
     )
@@ -56,7 +56,7 @@ RSpec.describe BusinessPeriod::Days do
     et_spring_day
     config('et', [4, 5])
 
-    expect(BusinessPeriod::Days.call(from_date: 1, to_date: 4)).to eq(
+    expect(described_class.call(from_date: 1, to_date: 4)).to eq(
       from_date: Time.new(2019, 5, 3).to_date,
       to_date: Time.new(2019, 5, 16).to_date
     )
@@ -66,7 +66,7 @@ RSpec.describe BusinessPeriod::Days do
     lv_national_day
     config('lv', [1, 3, 5])
 
-    expect(BusinessPeriod::Days.call(from_date: 3, to_date: 4)).to eq(
+    expect(described_class.call(from_date: 3, to_date: 4)).to eq(
       from_date: Time.new(2019, 11, 25).to_date,
       to_date: Time.new(2019, 11, 27).to_date
     )
@@ -76,7 +76,7 @@ RSpec.describe BusinessPeriod::Days do
     lt_easter_holidays
     config('lt', [2, 4, 5])
 
-    expect(BusinessPeriod::Days.call(from_date: 2, to_date: 5)).to eq(
+    expect(described_class.call(from_date: 2, to_date: 5)).to eq(
       from_date: Time.new(2018, 4, 3).to_date,
       to_date: Time.new(2018, 4, 10).to_date
     )
@@ -85,57 +85,73 @@ RSpec.describe BusinessPeriod::Days do
   it 'correctly calculates from today' do
     config('lt', [1, 2, 3, 4, 5])
 
-    expect(BusinessPeriod::Days.call(from_date: 0, to_date: 2)).to eq(
+    expect(described_class.call(from_date: 0, to_date: 2)).to eq(
       from_date: Time.new(2018, 1, 8).to_date,
       to_date: Time.new(2018, 1, 10).to_date
     )
   end
 
   describe 'when passing nil parrams' do
-    it 'returns empty hash when from_date param is nil' do
+    it 'returns empty array when from_date param is nil' do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(BusinessPeriod::Days.call(from_date: nil, to_date: 30)).to eq({})
+      expect(described_class.call(from_date: nil, to_date: 30)).to eq([])
     end
 
-    it 'returns empty hash when to_date param is nil' do
+    it 'returns empty array when to_date param is nil' do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(BusinessPeriod::Days.call(from_date: 30, to_date: nil)).to eq({})
+      expect(described_class.call(from_date: 30, to_date: nil)).to eq([])
     end
 
-    it 'returns empty hash when both from_date and to_date params are nils' do
+    it 'returns empty array when both from_date and to_date params are nils' do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(BusinessPeriod::Days.call(from_date: nil, to_date: nil)).to eq({})
+      expect(described_class.call(from_date: nil, to_date: nil)).to eq([])
     end
   end
 
   describe 'when passing hashes or arrays' do
-    it 'returns empty hash when both from_date and to_date params are empty arrays' do
+    it 'returns empty array when both from_date and to_date params are empty arrays' do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(BusinessPeriod::Days.call(from_date: [], to_date: [])).to eq({})
+      expect(described_class.call(from_date: [], to_date: [])).to eq([])
     end
 
-    it 'returns empty hash when both from_date and to_date params are empty hashes' do
+    it 'returns empty array when both from_date and to_date params are empty hashes' do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(BusinessPeriod::Days.call(from_date: {}, to_date: {})).to eq({})
+      expect(described_class.call(from_date: {}, to_date: {})).to eq([])
     end
   end
 
   describe 'when passing not numeric chars' do
-    it 'returns empty hash when both from_date and to_date are not numeric' do
+    it 'returns empty array' do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(BusinessPeriod::Days.call(from_date: 'a', to_date: 'b')).to eq({})
+      expect(described_class.call(from_date: 'a', to_date: 'b')).to eq([])
+    end
+  end
+
+  describe 'when from_date > to_date' do
+    it 'returns empty array' do
+      config('lt', [1, 2, 3, 4, 5])
+
+      expect(described_class.call(from_date: 1, to_date: 0)).to eq([])
+    end
+  end
+
+  describe 'when from_date == to_date' do
+    it 'returns calculated result' do
+      config('lt', [1, 2, 3, 4, 5])
+
+      expect(described_class.call(from_date: 1, to_date: 1)).to_not eq([])
     end
   end
 
