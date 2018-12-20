@@ -6,7 +6,7 @@ module BusinessPeriod
   class Config
     include Singleton
 
-    attr_accessor :locale, :work_days, :origin
+    attr_accessor :locale, :work_days
 
     def self.locale=(str)
       instance.locale = str
@@ -22,14 +22,6 @@ module BusinessPeriod
 
     def self.work_days
       instance.work_days.class == Proc ? instance.work_days.call : instance.work_days
-    end
-
-    def self.origin=(arr)
-      instance.origin = arr
-    end
-
-    def self.origin
-      instance.origin.class == Proc ? instance.origin.call : instance.origin
     end
   end
 end
