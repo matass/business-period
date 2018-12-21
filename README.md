@@ -74,9 +74,10 @@ BusinessPeriod::Days.call(period)
 ## Examples
 Let's say we have no holidays this month and today is Wednesday.
 
-let `work_days = [1, 2, 3, 4, 5]` (all days except weekends)
+`work_days = [1, 2, 3, 4, 5]` (all days except weekends)
 
-let `period = { from_date: 2, to_date: 4 }`
+`from = 2`
+`to = 4`
 
 * Begins to count period from the coming day.
 * Tomorrow (Thursday) is the first valid day.
@@ -86,9 +87,11 @@ let `period = { from_date: 2, to_date: 4 }`
 ```console
 irb(main):001:0> Time.current
 => Wed, 12 Sep 2018 05:49:10 UTC +00:00
-irb(main):002:0> period = { 2, 4 }
-=> {:from_date=>2, :to_date=>4}
-irb(main):003:0> BusinessPeriod::Days.call(period)
+irb(main):002:0> from = 2
+=> 2
+irb(main):003:0> to = 4
+=> 4
+irb(main):004:0> BusinessPeriod::Days.call(from, to)
 => {:from_date=>Fri, 14 Sep 2018, :to_date=>Tue, 18 Sep 2018]
 ```
 
