@@ -6,7 +6,7 @@ RSpec.describe BusinessPeriod::Days do
   it 'correctly calculates from business day' do
     config('lt', [1, 2, 3, 4, 5])
 
-    expect(described_class.call(from_date: 2, to_date: 10, options: options)).to eq(
+    expect(described_class.call(2, 10, options)).to eq(
       from_date: Time.new(2018, 1, 10).to_date,
       to_date: Time.new(2018, 1, 22).to_date
     )
@@ -16,7 +16,7 @@ RSpec.describe BusinessPeriod::Days do
     saturday
     config('lt', [5])
 
-    expect(described_class.call(from_date: 2, to_date: 5)).to eq(
+    expect(described_class.call(2, 5)).to eq(
       from_date: Time.new(2018, 1, 26).to_date,
       to_date: Time.new(2018, 2, 23).to_date
     )
@@ -26,7 +26,7 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [1, 2, 3, 4, 5])
     sunday
 
-    expect(described_class.call(from_date: 0, to_date: 2, options: options)).to eq(
+    expect(described_class.call(0, 2, options)).to eq(
       from_date: Time.new(2018, 1, 22).to_date,
       to_date: Time.new(2018, 1, 24).to_date
     )
@@ -36,7 +36,7 @@ RSpec.describe BusinessPeriod::Days do
     saturday
     config('lt', [5])
 
-    expect(described_class.call(from_date: 2, to_date: 10)).to eq(
+    expect(described_class.call(2, 10)).to eq(
       from_date: Time.new(2018, 1, 26).to_date,
       to_date: Time.new(2018, 3, 30).to_date
     )
@@ -46,7 +46,7 @@ RSpec.describe BusinessPeriod::Days do
     lt_easter_holidays
     config('lt', [2, 4, 5])
 
-    expect(described_class.call(from_date: 2, to_date: 5, options: options)).to eq(
+    expect(described_class.call(2, 5, options)).to eq(
       from_date: Time.new(2018, 4, 3).to_date,
       to_date: Time.new(2018, 4, 10).to_date
     )
@@ -56,7 +56,7 @@ RSpec.describe BusinessPeriod::Days do
     et_spring_day
     config('et', [4, 5])
 
-    expect(described_class.call(from_date: 1, to_date: 4)).to eq(
+    expect(described_class.call(1, 4)).to eq(
       from_date: Time.new(2019, 5, 3).to_date,
       to_date: Time.new(2019, 5, 16).to_date
     )
@@ -66,7 +66,7 @@ RSpec.describe BusinessPeriod::Days do
     lv_national_day
     config('lv', [1, 3, 5])
 
-    expect(described_class.call(from_date: 3, to_date: 4)).to eq(
+    expect(described_class.call(3, 4)).to eq(
       from_date: Time.new(2019, 11, 25).to_date,
       to_date: Time.new(2019, 11, 27).to_date
     )
@@ -76,7 +76,7 @@ RSpec.describe BusinessPeriod::Days do
     lt_easter_holidays
     config('lt', [2, 4, 5])
 
-    expect(described_class.call(from_date: 2, to_date: 5, options: options)).to eq(
+    expect(described_class.call(2, 5, options)).to eq(
       from_date: Time.new(2018, 4, 3).to_date,
       to_date: Time.new(2018, 4, 10).to_date
     )
@@ -85,7 +85,7 @@ RSpec.describe BusinessPeriod::Days do
   it 'correctly calculates from today' do
     config('lt', [1, 2, 3, 4, 5])
 
-    expect(described_class.call(from_date: 0, to_date: 2)).to eq(
+    expect(described_class.call(0, 2)).to eq(
       from_date: Time.new(2018, 1, 8).to_date,
       to_date: Time.new(2018, 1, 10).to_date
     )
@@ -96,28 +96,28 @@ RSpec.describe BusinessPeriod::Days do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(described_class.call(from_date: nil, to_date: 30)).to eq([])
+      expect(described_class.call(nil, 30)).to eq([])
     end
 
     it 'returns empty array (to_date param is nil)' do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(described_class.call(from_date: 30, to_date: nil)).to eq([])
+      expect(described_class.call(30, nil)).to eq([])
     end
 
     it 'returns empty array (from_date and to_date params are nils)' do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(described_class.call(from_date: nil, to_date: nil)).to eq([])
+      expect(described_class.call(nil, nil)).to eq([])
     end
 
     it 'returns empty array (from_date, to_date and options params are nils)' do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(described_class.call(from_date: nil, to_date: nil, options: nil)).to eq([])
+      expect(described_class.call(nil, nil, nil)).to eq([])
     end
   end
 
@@ -126,14 +126,14 @@ RSpec.describe BusinessPeriod::Days do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(described_class.call(from_date: [], to_date: [])).to eq([])
+      expect(described_class.call([], [])).to eq([])
     end
 
     it 'returns empty array when both from_date and to_date params are empty hashes' do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(described_class.call(from_date: {}, to_date: {})).to eq([])
+      expect(described_class.call({}, {})).to eq([])
     end
   end
 
@@ -142,7 +142,7 @@ RSpec.describe BusinessPeriod::Days do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
-      expect(described_class.call(from_date: 'a', to_date: 'b')).to eq([])
+      expect(described_class.call('a', 'b')).to eq([])
     end
   end
 
@@ -150,7 +150,7 @@ RSpec.describe BusinessPeriod::Days do
     it 'returns empty array' do
       config('lt', [1, 2, 3, 4, 5])
 
-      expect(described_class.call(from_date: 1, to_date: 0)).to eq([])
+      expect(described_class.call(1, 0)).to eq([])
     end
   end
 
@@ -158,7 +158,7 @@ RSpec.describe BusinessPeriod::Days do
     it 'returns empty array' do
       config('lt', [1, 2, 3, 4, 5])
 
-      expect(described_class.call(from_date: 1, to_date: 2, options: { primary_day: 1 })).to eq([])
+      expect(described_class.call(1, 2, { primary_day: 1 })).to eq([])
     end
   end
 
@@ -166,7 +166,7 @@ RSpec.describe BusinessPeriod::Days do
     it 'returns calculated result' do
       config('lt', [1, 2, 3, 4, 5])
 
-      expect(described_class.call(from_date: 1, to_date: 1)).to_not eq([])
+      expect(described_class.call(1, 1)).to_not eq([])
     end
   end
 
@@ -177,7 +177,7 @@ RSpec.describe BusinessPeriod::Days do
       custom_2017_12_29 = days_to_move_back(10)
       options = { primary_day: custom_2017_12_29 }
 
-      expect(described_class.call(from_date: 1, to_date: 1, options: options)).to eq(
+      expect(described_class.call(1, 1, options)).to eq(
         from_date: Time.new(2018, 1, 2).to_date,
         to_date: Time.new(2018, 1, 2).to_date
       )
@@ -190,7 +190,7 @@ RSpec.describe BusinessPeriod::Days do
       custom_2018_1_9 = days_to_move_back(2)
       options = { primary_day: custom_2018_1_9 }
 
-      expect(described_class.call(from_date: 1, to_date: 5, options: options )).to eq(
+      expect(described_class.call(1, 5, options )).to eq(
         from_date: Time.new(2018, 1, 10).to_date,
         to_date: Time.new(2018, 1, 16).to_date
       )
@@ -203,7 +203,7 @@ RSpec.describe BusinessPeriod::Days do
       custom_2018_1_20 = days_to_move_back(1)
       options = { primary_day: custom_2018_1_20 }
 
-      expect(described_class.call(from_date: 1, to_date: 5, options: options)).to eq(
+      expect(described_class.call(1, 5, options: options)).to eq(
         from_date: Time.new(2018, 1, 23).to_date,
         to_date: Time.new(2018, 1, 29).to_date
       )
@@ -216,7 +216,7 @@ RSpec.describe BusinessPeriod::Days do
       custom_2018_1_19 = days_to_move_back(2)
       options = { primary_day: custom_2018_1_19 }
 
-      expect(described_class.call(from_date: 1, to_date: 5, options: options)).to eq(
+      expect(described_class.call(1, 5, options)).to eq(
         from_date: Time.new(2018, 1, 22).to_date,
         to_date: Time.new(2018, 1, 26).to_date
       )

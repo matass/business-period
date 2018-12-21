@@ -26,13 +26,13 @@ Or install it yourself as:
 
 There are two ways to initialize:
 
-##### Default initialization:
+##### Initialization:
 
 ```ruby
 # config/initializers/business_period.rb
 
-# set locale to get config file from config/holidays path
-# set work_days to define which days of week are work days
+# Set locale to get config file from config/holidays path.
+# Set work_days to define which days of week are work days.
 
 locale = 'lt'
 work_days = [1, 2, 3, 4, 5]
@@ -53,50 +53,51 @@ BusinessPeriod::Config.work_days = -> { work_days }
 
 ## How it works
 
-1. Dynamically calculates how many days we have to add to period end (Saturdays/Sundays/Holidays)
-2. Generates new array
-2. Extracts weekends and holidays from newly generated array
-3. Generates result array
+1. Dynamically calculates how many days we have to add to period end (Saturdays/Sundays/Holidays).
+2. Generates new array.
+2. Extracts weekends and holidays from newly generated array.
+3. Generates result array.
 
 ## Usage
 
 ```ruby
-# set period hash
-period = { from_date: 2, to_date: 4 }
+# set period
+period = { 2, 4 }
 
-# call BusinessPeriod::Days class to calculate period 
+# You can pass optional parameters if You want to set primary day as starting point.
+# period = { 2, 4, { primary_day: Time.now - (3600 * 24) } }
+
+# Call BusinessPeriod::Days class to calculate period 
 BusinessPeriod::Days.call(period)
 ```
 
 ## Examples
-Let's say we have no holidays this month and today is Wednesday
+Let's say we have no holidays this month and today is Wednesday.
 
-let `work_days = [1, 2, 3, 4, 5]` (all days except weekends)
+`work_days = [1, 2, 3, 4, 5]` (all days except weekends)
 
-let `period = { from_date: 2, to_date: 4 }`
+`from = 2`
+`to = 4`
 
-* Begins to count period from the coming day
-* Tomorrow (Thursday) is the first valid day
-* The second valid day will be Fridary (first business day)
-* Fourth business day will be Tuesday (Saturday and Sunday are not in scope)
+* Begins to count period from the coming day.
+* Tomorrow (Thursday) is the first valid day.
+* The second valid day will be Fridary (first business day).
+* Fourth business day will be Tuesday (Saturday and Sunday are not in scope).
 
 ```console
 irb(main):001:0> Time.current
 => Wed, 12 Sep 2018 05:49:10 UTC +00:00
-irb(main):002:0> period = { from_date: 2, to_date: 4 }
-=> {:from_date=>2, :to_date=>4}
-irb(main):003:0> BusinessPeriod::Days.call(period)
+irb(main):002:0> from = 2
+=> 2
+irb(main):003:0> to = 4
+=> 4
+irb(main):004:0> BusinessPeriod::Days.call(from, to)
 => {:from_date=>Fri, 14 Sep 2018, :to_date=>Tue, 18 Sep 2018]
 ```
 
-## Todo
-- [ ] improve specs
-- [ ] Add latvian config
-- [ ] Add estonian config
-
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
 ## License
 
