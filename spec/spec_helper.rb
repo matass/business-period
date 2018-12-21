@@ -30,6 +30,14 @@ RSpec.shared_context 'shared helper', shared_context: :metadata do
     allow(Time).to receive(:now).and_return(Time.new(2019, 11, 18))
   end
 
+  def days_to_move_back(days)
+    Time.now - days * 3600 * 24
+  end
+
+  def options
+    { primary_day: Time.now }
+  end
+
   def config(locale, work_days)
     BusinessPeriod::Config.locale = locale
     BusinessPeriod::Config.work_days = work_days

@@ -2,17 +2,18 @@
 
 module BusinessPeriod
   class Days < Base
-    def self.call(from_date:, to_date:)
-      new.perform(from_date, to_date)
+    def self.call(from_date:, to_date:, options: {})
+      new.perform(from_date, to_date, options)
     end
 
-    def perform(from_date, to_date)
+    def perform(from_date, to_date, options)
       @from_date = from_date
       @to_date = to_date
+      @options = options
 
       return [] unless valid_params
 
-      period = calculate_period(@to_date)
+      period = calculate_period(@to_date, @options)
       days = business_days(period)
       result = extract_holidays(days).compact
 
@@ -25,9 +26,20 @@ module BusinessPeriod
     private
 
     def valid_params
-      @from_date.is_a?(Integer) && @to_date.is_a?(Integer) &&
+      valid_options &&
+        @from_date.is_a?(Integer) && @to_date.is_a?(Integer) &&
         @from_date >= 0 && @to_date >= 0 &&
         (@from_date <= @to_date)
+    end
+
+    def valid_options
+      @options ? primary_day_present? : true
+    end
+
+    def primary_day_present?
+      return unless @options.is_a?(Hash)
+
+      @options[:primary_day] ? (@options[:primary_day].methods.include? :strftime) : true
     end
 
     def extract_holidays(days)
