@@ -2,7 +2,7 @@
 
 module BusinessPeriod
   class Days < Base
-    def self.call(from_date:, to_date:, options: {})
+    def self.call(from_date = nil, to_date = nil, options = {})
       new.perform(from_date, to_date, options)
     end
 
