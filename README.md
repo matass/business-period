@@ -61,7 +61,6 @@ BusinessPeriod::Config.work_days = -> { work_days }
 ## Usage
 
 ```ruby
-# set period
 from = 2
 to = 4
 
