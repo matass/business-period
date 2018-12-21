@@ -64,9 +64,8 @@ BusinessPeriod::Config.work_days = -> { work_days }
 # set period
 period = { 2, 4 }
 
-# You can set optional parameters if You want to define primary day.
+# You can pass optional parameters if You want to set primary day as starting point.
 # period = { 2, 4, { primary_day: Time.now - (3600 * 24) } }
-# Gem will set primary_day as starting point.
 
 # Call BusinessPeriod::Days class to calculate period 
 BusinessPeriod::Days.call(period)
