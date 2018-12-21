@@ -62,13 +62,14 @@ BusinessPeriod::Config.work_days = -> { work_days }
 
 ```ruby
 # set period
-period = { 2, 4 }
+from = 2
+to = 4
 
 # You can pass optional parameters if You want to set primary day as starting point.
-# period = { 2, 4, { primary_day: Time.now - (3600 * 24) } }
+# options = { primary_day: Time.now - (3600 * 24) }
 
 # Call BusinessPeriod::Days class to calculate period 
-BusinessPeriod::Days.call(period)
+BusinessPeriod::Days.call(from, to, options)
 ```
 
 ## Examples
