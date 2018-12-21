@@ -3,10 +3,11 @@
 RSpec.describe BusinessPeriod::Days do
   include_context 'shared helper'
 
-  it 'correctly calculates from business bay' do
+  it 'correctly calculates from business day' do
     config('lt', [1, 2, 3, 4, 5])
+    options = { origin: Time.now }
 
-    expect(described_class.call(from_date: 2, to_date: 10, origin: Time.now)).to eq(
+    expect(described_class.call(from_date: 2, to_date: 10, options: options)).to eq(
       from_date: Time.new(2018, 1, 10).to_date,
       to_date: Time.new(2018, 1, 22).to_date
     )
@@ -16,17 +17,18 @@ RSpec.describe BusinessPeriod::Days do
     saturday
     config('lt', [5])
 
-    expect(described_class.call(from_date: 2, to_date: 5, origin: Time.now)).to eq(
+    expect(described_class.call(from_date: 2, to_date: 5)).to eq(
       from_date: Time.new(2018, 1, 26).to_date,
-      to_date: Time.new(2018, 2, 23).to_date # 02-16 Valstybes atkurimo diena
+      to_date: Time.new(2018, 2, 23).to_date
     )
   end
 
   it 'correctly calculates from sunday when the first day is sunday' do
     config('lt', [1, 2, 3, 4, 5])
     sunday
+    options = { origin: Time.now }
 
-    expect(described_class.call(from_date: 0, to_date: 2, origin: Time.now)).to eq(
+    expect(described_class.call(from_date: 0, to_date: 2, options: options)).to eq(
       from_date: Time.new(2018, 1, 22).to_date,
       to_date: Time.new(2018, 1, 24).to_date
     )
@@ -36,7 +38,7 @@ RSpec.describe BusinessPeriod::Days do
     saturday
     config('lt', [5])
 
-    expect(described_class.call(from_date: 2, to_date: 10, origin: Time.now)).to eq(
+    expect(described_class.call(from_date: 2, to_date: 10)).to eq(
       from_date: Time.new(2018, 1, 26).to_date,
       to_date: Time.new(2018, 3, 30).to_date
     )
@@ -45,8 +47,9 @@ RSpec.describe BusinessPeriod::Days do
   it 'correctly calculates from saturday when ends on holiday' do
     lt_easter_holidays
     config('lt', [2, 4, 5])
+    options = { origin: Time.now }
 
-    expect(described_class.call(from_date: 2, to_date: 5, origin: Time.now)).to eq(
+    expect(described_class.call(from_date: 2, to_date: 5, options: options)).to eq(
       from_date: Time.new(2018, 4, 3).to_date,
       to_date: Time.new(2018, 4, 10).to_date
     )
@@ -75,8 +78,9 @@ RSpec.describe BusinessPeriod::Days do
   it 'correctly calculates from saturday when ends on holiday' do
     lt_easter_holidays
     config('lt', [2, 4, 5])
+    options = { origin: Time.now }
 
-    expect(described_class.call(from_date: 2, to_date: 5, origin: Time.now)).to eq(
+    expect(described_class.call(from_date: 2, to_date: 5, options: options)).to eq(
       from_date: Time.new(2018, 4, 3).to_date,
       to_date: Time.new(2018, 4, 10).to_date
     )
@@ -85,7 +89,7 @@ RSpec.describe BusinessPeriod::Days do
   it 'correctly calculates from today' do
     config('lt', [1, 2, 3, 4, 5])
 
-    expect(described_class.call(from_date: 0, to_date: 2, origin: Time.now)).to eq(
+    expect(described_class.call(from_date: 0, to_date: 2)).to eq(
       from_date: Time.new(2018, 1, 8).to_date,
       to_date: Time.new(2018, 1, 10).to_date
     )
@@ -106,11 +110,18 @@ RSpec.describe BusinessPeriod::Days do
       expect(described_class.call(from_date: 30, to_date: nil)).to eq([])
     end
 
-    it 'returns empty array when both from_date and to_date params are nils' do
+    it 'returns empty array when from_date and to_date params are nils' do
       lt_easter_holidays
       config('lt', [2, 4, 5])
 
       expect(described_class.call(from_date: nil, to_date: nil)).to eq([])
+    end
+
+    it 'returns empty array when from_date, to_date and options params are nils' do
+      lt_easter_holidays
+      config('lt', [2, 4, 5])
+
+      expect(described_class.call(from_date: nil, to_date: nil, options: nil)).to eq([])
     end
   end
 
@@ -151,7 +162,7 @@ RSpec.describe BusinessPeriod::Days do
     it 'returns empty array' do
       config('lt', [1, 2, 3, 4, 5])
 
-      expect(described_class.call(from_date: 1, to_date: 2, origin: 1)).to eq([])
+      expect(described_class.call(from_date: 1, to_date: 2, options: { origin: 1 })).to eq([])
     end
   end
 
@@ -168,8 +179,9 @@ RSpec.describe BusinessPeriod::Days do
       config('lt', [1, 2, 3, 4, 5])
 
       custom_2017_12_29 = days_to_move_back(10)
+      options = { origin: custom_2017_12_29 }
 
-      expect(described_class.call(from_date: 1, to_date: 1, origin: custom_2017_12_29)).to eq(
+      expect(described_class.call(from_date: 1, to_date: 1, options: options)).to eq(
         from_date: Time.new(2018, 1, 3).to_date,
         to_date: Time.new(2018, 1, 3).to_date
       )
@@ -180,8 +192,9 @@ RSpec.describe BusinessPeriod::Days do
       saturday
 
       custom_2018_1_9 = days_to_move_back(2)
+      options = { origin: custom_2018_1_9 }
 
-      expect(described_class.call(from_date: 1, to_date: 5, origin: custom_2018_1_9)).to eq(
+      expect(described_class.call(from_date: 1, to_date: 5, options: options )).to eq(
         from_date: Time.new(2018, 1, 10).to_date,
         to_date: Time.new(2018, 1, 16).to_date
       )
@@ -192,8 +205,9 @@ RSpec.describe BusinessPeriod::Days do
       sunday
 
       custom_2018_1_20 = days_to_move_back(1)
+      options = { origin: custom_2018_1_20 }
 
-      expect(described_class.call(from_date: 1, to_date: 5, origin: custom_2018_1_20)).to eq(
+      expect(described_class.call(from_date: 1, to_date: 5, options: options)).to eq(
         from_date: Time.new(2018, 1, 23).to_date,
         to_date: Time.new(2018, 1, 29).to_date
       )
@@ -204,20 +218,19 @@ RSpec.describe BusinessPeriod::Days do
       sunday
 
       custom_2018_1_19 = days_to_move_back(2)
+      options = { origin: custom_2018_1_19 }
 
-      expect(described_class.call(from_date: 1, to_date: 5, origin: custom_2018_1_19)).to eq(
+      expect(described_class.call(from_date: 1, to_date: 5, options: options)).to eq(
         from_date: Time.new(2018, 1, 22).to_date,
         to_date: Time.new(2018, 1, 26).to_date
       )
     end
   end
 
-  #context 'calls self' do
-    #2000.times do
-      #day = rand(356)
-      #days = rand(356)
-
-      #next unless day < days
+  context 'calls self' do
+    2000.times do
+      day = rand(356)
+      days = rand(356)
 
       #it "raises no errors. work_days: [1], interval: [#{day} – #{days}]" do
         #expecter([1], day, days)
@@ -235,17 +248,17 @@ RSpec.describe BusinessPeriod::Days do
         #expecter([1, 2, 3, 4], day, days)
       #end
 
-      #it "raises no errors. work_days: [1, 2, 3, 4, 5], interval: [#{day} – #{days}]" do
-        #expecter([1, 2, 3, 4, 5], day, days)
-      #end
+      it "raises no errors. work_days: [1, 2, 3, 4, 5], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3, 4, 5], day, days)
+      end
 
-      #it "raises no errors. work_days: [1, 2, 3, 4, 5, 6], interval: [#{day} – #{days}]" do
-        #expecter([1, 2, 3, 4, 5, 6], day, days)
-      #end
+      it "raises no errors. work_days: [1, 2, 3, 4, 5, 6], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3, 4, 5, 6], day, days)
+      end
 
-      #it "raises no errors. work_days: [1, 2, 3, 4, 5, 6, 7], interval: [#{day} – #{days}]" do
-        #expecter([1, 2, 3, 4, 5, 7], day, days)
-      #end
-    #end
-  #end
+      it "raises no errors. work_days: [1, 2, 3, 4, 5, 6, 7], interval: [#{day} – #{days}]" do
+        expecter([1, 2, 3, 4, 5, 7], day, days)
+      end
+    end
+  end
 end

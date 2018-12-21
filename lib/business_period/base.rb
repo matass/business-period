@@ -6,12 +6,10 @@ module BusinessPeriod
       @config ||= Config
     end
 
-    def calculate_period(to_date, origin = nil)
+    def calculate_period(to_date, options = nil)
       magic_number = 15 - config.work_days.size
       days_to_add = days_to_seconds(to_date * magic_number)
-
-      start_date = origin || Time.now
-
+      start_date = options[:origin] || Time.now
       finish = start_date + days_to_add
       start_date.to_date..finish.to_date
     end

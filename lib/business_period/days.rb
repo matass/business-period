@@ -2,18 +2,18 @@
 
 module BusinessPeriod
   class Days < Base
-    def self.call(from_date:, to_date:, origin: nil)
-      new.perform(from_date, to_date, origin)
+    def self.call(from_date:, to_date:, options: {})
+      new.perform(from_date, to_date, options)
     end
 
-    def perform(from_date, to_date, origin)
+    def perform(from_date, to_date, options)
       @from_date = from_date
       @to_date = to_date
-      @origin = origin
+      @options = options
 
       return [] unless valid_params
 
-      period = calculate_period(@to_date, @origin)
+      period = calculate_period(@to_date, @options)
       days = business_days(period)
       result = extract_holidays(days).compact
 
@@ -26,14 +26,20 @@ module BusinessPeriod
     private
 
     def valid_params
-      valid_origin &&
+      valid_options &&
         @from_date.is_a?(Integer) && @to_date.is_a?(Integer) &&
         @from_date >= 0 && @to_date >= 0 &&
         (@from_date <= @to_date)
     end
 
-    def valid_origin
-      @origin ? (@origin.methods.include? :strftime) : true
+    def valid_options
+      @options ? origin_present? : true
+    end
+
+    def origin_present?
+      return unless @options.is_a?(Hash)
+
+      @options[:origin] ? (@options[:origin].methods.include? :strftime) : true
     end
 
     def extract_holidays(days)
@@ -42,12 +48,11 @@ module BusinessPeriod
 
         next unless years && years['months'][day[:month]]
 
-        day unless first_day_is_holiday?(idx, day)
+        day unless first_day_is_holiday?(idx, years, day)
       end
     end
 
-    def first_day_is_holiday?(idx, day)
-      years = holidays[day[:day].year]
+    def first_day_is_holiday?(idx, years, day)
       include_day = years['months'][day[:month]].map { |d| d['mday'] }
 
       if idx.zero? && (include_day.include? day[:day].day)
