@@ -13,8 +13,8 @@ module BusinessPeriod
       result = business_days(period)
 
       {
-        from_date: result[from_date][:day],
-        to_date: result[to_date][:day]
+        from_date: result[from_date],
+        to_date: result[to_date]
       }
     end
 
@@ -43,7 +43,7 @@ module BusinessPeriod
 
         next if holidays.flatten.include? holiday_month_with_day(day.month, day.day)
 
-        container << { day: day }
+        container << day
       end
     end
   end
