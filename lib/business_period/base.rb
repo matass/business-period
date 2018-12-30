@@ -2,6 +2,8 @@
 
 module BusinessPeriod
   class Base
+    SEPARATOR = '_'
+
     def config
       @config ||= Config
     end
@@ -15,10 +17,28 @@ module BusinessPeriod
     end
 
     def holidays
-      @holidays ||= YAML.load_file(File.join(holiday_config)).fetch('months')
+      @holidays ||= begin
+        holidays_config.each_with_object([]) do |row, container|
+          container << row.last.map do |days|
+            holiday_month_with_day(row.first, days['mday'])
+          end
+        end
+      end
+    end
+
+    def holiday_month_with_day(month, day)
+      [month, day].join(SEPARATOR)
+    end
+
+    def day_is_holiday?(day)
+      holidays.flatten.include? holiday_month_with_day(day.month, day.day)
     end
 
     private
+
+    def holidays_config
+      @holidays_config ||= YAML.load_file(File.join(holiday_config)).fetch('months')
+    end
 
     def holiday_config
       [File.dirname(__FILE__), "../../config/holidays/#{config.locale}.yml"]
