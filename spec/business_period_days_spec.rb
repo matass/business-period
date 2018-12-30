@@ -17,8 +17,8 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [5])
 
     expect(described_class.call(2, 5)).to eq(
-      from_date: Time.new(2018, 1, 26).to_date,
-      to_date: Time.new(2018, 2, 23).to_date
+      from_date: Time.new(2018, 2, 2).to_date,
+      to_date: Time.new(2018, 3, 2).to_date
     )
   end
 
@@ -37,12 +37,12 @@ RSpec.describe BusinessPeriod::Days do
     config('lt', [5])
 
     expect(described_class.call(2, 10)).to eq(
-      from_date: Time.new(2018, 1, 26).to_date,
-      to_date: Time.new(2018, 3, 30).to_date
+      from_date: Time.new(2018, 2, 2).to_date,
+      to_date: Time.new(2018, 4, 6).to_date
     )
   end
 
-  it 'correctly calculates from saturday when ends on holiday' do
+  it 'correctly calculates from holiday' do
     lt_easter_holidays
     config('lt', [2, 4, 5])
 
@@ -63,22 +63,12 @@ RSpec.describe BusinessPeriod::Days do
   end
 
   it 'correctly calculates from LV National Day holiday' do
-    lv_national_day
+    lv_national_day # 04 - 19
     config('lv', [1, 3, 5])
 
     expect(described_class.call(3, 4)).to eq(
-      from_date: Time.new(2019, 11, 25).to_date,
-      to_date: Time.new(2019, 11, 27).to_date
-    )
-  end
-
-  it 'correctly calculates from saturday when ends on holiday' do
-    lt_easter_holidays
-    config('lt', [2, 4, 5])
-
-    expect(described_class.call(2, 5, options)).to eq(
-      from_date: Time.new(2018, 4, 3).to_date,
-      to_date: Time.new(2018, 4, 10).to_date
+      from_date: Time.new(2019, 5, 3).to_date,
+      to_date: Time.new(2019, 5, 8).to_date
     )
   end
 
@@ -187,12 +177,12 @@ RSpec.describe BusinessPeriod::Days do
       config('lt', [1, 2, 3, 4, 5])
       saturday
 
-      custom_2018_1_9 = days_to_move_back(2)
-      options = { primary_day: custom_2018_1_9 }
+      custom_2018_1_11 = days_to_move_back(2)
+      options = { primary_day: custom_2018_1_11 }
 
       expect(described_class.call(1, 5, options )).to eq(
-        from_date: Time.new(2018, 1, 10).to_date,
-        to_date: Time.new(2018, 1, 16).to_date
+        from_date: Time.new(2018, 1, 12).to_date,
+        to_date: Time.new(2018, 1, 18).to_date
       )
     end
 

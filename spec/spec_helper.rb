@@ -11,7 +11,7 @@ RSpec.shared_context 'shared helper', shared_context: :metadata do
   end
 
   let(:saturday) do
-    allow(Time).to receive(:now).and_return(Time.new(2018, 1, 11))
+    allow(Time).to receive(:now).and_return(Time.new(2018, 1, 13))
   end
 
   let(:sunday) do
@@ -27,7 +27,7 @@ RSpec.shared_context 'shared helper', shared_context: :metadata do
   end
 
   let(:lv_national_day) do
-    allow(Time).to receive(:now).and_return(Time.new(2019, 11, 18))
+    allow(Time).to receive(:now).and_return(Time.new(2019, 4, 19))
   end
 
   def days_to_move_back(days)
