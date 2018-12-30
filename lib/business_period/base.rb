@@ -30,6 +30,10 @@ module BusinessPeriod
       [month, day].join(SEPARATOR)
     end
 
+    def day_is_holiday?(day)
+      holidays.flatten.include? holiday_month_with_day(day.month, day.day)
+    end
+
     private
 
     def holidays_config

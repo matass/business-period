@@ -39,11 +39,9 @@ module BusinessPeriod
 
     def business_days(period)
       period.each_with_object([]) do |day, container|
-        next unless config.work_days.include?(day.wday)
-
-        next if holidays.flatten.include? holiday_month_with_day(day.month, day.day)
-
-        container << day
+        if config.work_days.include?(day.wday)
+          container << day unless day_is_holiday?(day)
+        end
       end
     end
   end
